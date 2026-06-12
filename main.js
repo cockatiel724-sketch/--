@@ -1,3 +1,4 @@
+console.log("MAIN LOADED");
 /========================
  * v5 Core Engine
 ========================/
