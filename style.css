@@ -1,0 +1,152 @@
+/* ========================
+   全体設定
+======================== */
+
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  font-family: sans-serif;
+}
+
+
+/* ========================
+   UI（スコア・コンボ等）
+======================== */
+
+#ui {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 100;
+}
+
+
+/* ========================
+   スコア表示
+======================== */
+
+/* 後で追加 */
+
+
+/* ========================
+   コンボ表示
+======================== */
+
+/* 後で追加 */
+
+
+/* ========================
+   エネルギー表示
+======================== */
+
+/* 後で追加 */
+
+
+/* ========================
+   矢印マーカー
+======================== */
+
+#arrow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+/* 共通矢印 */
+
+.arrow {
+  width: 0;
+  height: 0;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.8));
+}
+
+
+/* 上 */
+
+.arrow.up {
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-bottom: 50px solid white;
+}
+
+
+/* 下 */
+
+.arrow.down {
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-top: 50px solid white;
+}
+
+
+/* 左 */
+
+.arrow.left {
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+  border-right: 50px solid white;
+}
+
+
+/* 右 */
+
+.arrow.right {
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+  border-left: 50px solid white;
+}
+
+
+/* ========================
+   コア（中央エネルギー球）
+======================== */
+
+/* 後で追加 */
+
+
+/* ========================
+   パーティクル
+======================== */
+
+/* 後で追加 */
+
+
+/* ========================
+   スワイプ軌跡
+======================== */
+
+/* 後で追加 */
+
+
+/* ========================
+   リングエフェクト
+======================== */
+
+/* 後で追加 */
+
+
+/* ========================
+   フィーバー演出
+======================== */
+
+/* 後で追加 */
+
+
+/* ========================
+   FEVER TIME表示
+======================== */
+
+/* 後で追加 */
+
+
+/* ========================
+   ゲームオーバー
+======================== */
+
+/* 後で追加 */
