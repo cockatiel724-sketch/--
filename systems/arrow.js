@@ -1,0 +1,58 @@
+const ArrowSystem = {
+  current: null,
+
+  directions: ["up", "down", "left", "right"],
+
+  spawn() {
+    const dir = this.directions[
+      Math.floor(Math.random() * this.directions.length)
+    ];
+
+    this.current = {
+      direction: dir,
+      createdAt: performance.now()
+    };
+
+    GameState.currentArrow = this.current;
+
+    Events.emit("spawn", this.current);
+
+    console.log("SPAWN:", dir);
+  },
+
+  checkSwipe(swipe) {
+    if (!this.current) return;
+
+    const dir = this.getDirectionFromSwipe(swipe);
+
+    if (dir === this.current.direction) {
+      Events.emit("success", { direction: dir });
+    } else {
+      Events.emit("fail", { direction: dir });
+    }
+
+    this.spawn(); // 次の矢印出す
+  },
+
+  getDirectionFromSwipe({ dx, dy }) {
+    const absX = Math.abs(dx);
+    const absY = Math.abs(dy);
+
+    if (absX > absY) {
+      return dx > 0 ? "right" : "left";
+    } else {
+      return dy > 0 ? "down" : "up";
+    }
+  },
+
+  update() {
+    // 2秒寿命チェック
+    if (!this.current) return;
+
+    const now = performance.now();
+    if (now - this.current.createdAt > 2000) {
+      Events.emit("fail", { reason: "timeout" });
+      this.spawn();
+    }
+  }
+};
