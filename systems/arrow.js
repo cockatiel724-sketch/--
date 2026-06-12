@@ -15,9 +15,27 @@ const ArrowSystem = {
 
     GameState.currentArrow = this.current;
 
+    // 矢印表示
+    this.render(dir);
+
     Events.emit("spawn", this.current);
 
     console.log("SPAWN:", dir);
+  },
+
+  render(dir) {
+    const el = document.getElementById("arrow");
+
+    if (!el) return;
+
+    // クラス初期化
+    el.className = "";
+
+    // ベースクラス
+    el.classList.add("arrow");
+
+    // 方向クラス
+    el.classList.add(dir);
   },
 
   checkSwipe(swipe) {
@@ -26,12 +44,22 @@ const ArrowSystem = {
     const dir = this.getDirectionFromSwipe(swipe);
 
     if (dir === this.current.direction) {
-      Events.emit("success", { direction: dir });
+      Events.emit("success", {
+        direction: dir
+      });
+
+      console.log("SUCCESS:", dir);
+
     } else {
-      Events.emit("fail", { direction: dir });
+      Events.emit("fail", {
+        direction: dir
+      });
+
+      console.log("FAIL:", dir);
     }
 
-    this.spawn(); // 次の矢印出す
+    // 次の矢印生成
+    this.spawn();
   },
 
   getDirectionFromSwipe({ dx, dy }) {
@@ -40,9 +68,9 @@ const ArrowSystem = {
 
     if (absX > absY) {
       return dx > 0 ? "right" : "left";
-    } else {
-      return dy > 0 ? "down" : "up";
     }
+
+    return dy > 0 ? "down" : "up";
   },
 
   update() {
@@ -50,8 +78,14 @@ const ArrowSystem = {
     if (!this.current) return;
 
     const now = performance.now();
+
     if (now - this.current.createdAt > 2000) {
-      Events.emit("fail", { reason: "timeout" });
+      Events.emit("fail", {
+        reason: "timeout"
+      });
+
+      console.log("TIMEOUT");
+
       this.spawn();
     }
   }
