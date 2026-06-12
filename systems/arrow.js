@@ -24,20 +24,20 @@ const ArrowSystem = {
     console.log("SPAWN:", dir);
   },
 
-  render(dir) {
-    const el = document.getElementById("arrow");
+render(dir) {
+  console.log("RENDER:", dir);
 
-    if (!el) return;
+  const el = document.getElementById("arrow");
 
-    // クラス初期化
-    el.className = "";
+  if (!el) {
+    console.log("ARROW ELEMENT NOT FOUND");
+    return;
+  }
 
-    // ベースクラス
-    el.classList.add("arrow");
-
-    // 方向クラス
-    el.classList.add(dir);
-  },
+  el.className = "";
+  el.classList.add("arrow");
+  el.classList.add(dir);
+}
 
   checkSwipe(swipe) {
     if (!this.current) return;
