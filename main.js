@@ -70,6 +70,66 @@ const InputSystem = {
 InputSystem.init();
 Systems.register(InputSystem);
 
+const InputSystem = {
+  startX: 0,
+  startY: 0,
+  isDown: false,
+
+  init() {
+    // -------------------------
+    // スワイプ開始
+    // -------------------------
+    window.addEventListener("touchstart", (e) => {
+      const t = e.touches[0];
+
+      this.startX = t.clientX;
+      this.startY = t.clientY;
+      this.isDown = true;
+    });
+
+    // -------------------------
+    // スワイプ終了
+    // -------------------------
+    window.addEventListener("touchend", (e) => {
+      if (!this.isDown) return;
+
+      const t = e.changedTouches[0];
+
+      const dx = t.clientX - this.startX;
+      const dy = t.clientY - this.startY;
+
+      this.isDown = false;
+
+      // ★ここが重要（ArrowSystemに渡す）
+      ArrowSystem.checkSwipe({ dx, dy });
+    });
+
+    // -------------------------
+    // PCテスト用（マウス）
+    // -------------------------
+    window.addEventListener("mousedown", (e) => {
+      this.startX = e.clientX;
+      this.startY = e.clientY;
+      this.isDown = true;
+    });
+
+    window.addEventListener("mouseup", (e) => {
+      if (!this.isDown) return;
+
+      const dx = e.clientX - this.startX;
+      const dy = e.clientY - this.startY;
+
+      this.isDown = false;
+
+      // ★ここも同じ
+      ArrowSystem.checkSwipe({ dx, dy });
+    });
+  },
+
+  update() {
+    // v5ルール：空でOK
+  }
+};
 /------------------------
  * ArrowSystem（空）
 ------------------------/
