@@ -61,121 +61,6 @@ const GameLoop = {
 };
 
 /------------------------
- * INPUT SYSTEM
- * スワイプを検知する場所
-------------------------/
-const InputSystem = {
-  startX: 0,
-  startY: 0,
-  isDown: false,
-
-  init() {
-    // 指を置いた瞬間
-    window.addEventListener("touchstart", (e) => {
-      const t = e.touches[0];
-      this.startX = t.clientX;
-      this.startY = t.clientY;
-      this.isDown = true;
-    });
-
-    // 指を離した瞬間
-    window.addEventListener("touchend", (e) => {
-      if (!this.isDown) return;
-
-      const t = e.changedTouches[0];
-
-      const dx = t.clientX - this.startX;
-      const dy = t.clientY - this.startY;
-
-      this.isDown = false;
-
-      ArrowSystem.checkSwipe({ dx, dy });
-    });
-
-    // PCテスト用（マウス）
-    window.addEventListener("mousedown", (e) => {
-      this.startX = e.clientX;
-      this.startY = e.clientY;
-      this.isDown = true;
-    });
-
-    window.addEventListener("mouseup", (e) => {
-      if (!this.isDown) return;
-
-      const dx = e.clientX - this.startX;
-      const dy = e.clientY - this.startY;
-
-      this.isDown = false;
-
-      ArrowSystem.checkSwipe({ dx, dy });
-    });
-  },
-
-  update() {}
-};
-
-/------------------------
- * ARROW SYSTEM
- * ゲームの“正解方向”を管理
-------------------------/
-const ArrowSystem = {
-  current: null,
-
-  directions: ["up", "down", "left", "right"],
-
-  spawn() {
-    const dir =
-      this.directions[Math.floor(Math.random() * this.directions.length)];
-
-    this.current = {
-      direction: dir,
-      createdAt: performance.now()
-    };
-
-    GameState.currentArrow = this.current;
-
-    console.log("SPAWN:", dir);
-  },
-
-  checkSwipe({ dx, dy }) {
-    if (!this.current) {
-      this.spawn();
-      return;
-    }
-
-    const dir = this.getDirection(dx, dy);
-
-    if (dir === this.current.direction) {
-      GameState.score += 10;
-      GameState.combo++;
-
-      console.log("SUCCESS:", dir);
-    } else {
-      GameState.combo = 0;
-      GameState.energy -= 5;
-
-      console.log("FAIL:", dir);
-    }
-
-    this.spawn();
-    syncUI();
-  },
-
-  getDirection(dx, dy) {
-    const absX = Math.abs(dx);
-    const absY = Math.abs(dy);
-
-    if (absX > absY) {
-      return dx > 0 ? "right" : "left";
-    } else {
-      return dy > 0 ? "down" : "up";
-    }
-  },
-
-  update() {}
-};
-
-/------------------------
  * ENERGY SYSTEM
 ------------------------/
 const EnergySystem = {
@@ -212,6 +97,25 @@ Systems.register(ArrowSystem);
 Events.on("energyEmpty", () => {
   GameState.running = false;
   console.log("GAME OVER");
+});
+// スワイプ → ArrowSystemへ
+Events.on("swipe", (swipe) => {
+  ArrowSystem.checkSwipe(swipe);
+});
+
+// 成功
+Events.on("success", () => {
+  GameState.score += 10;
+  GameState.combo += 1;
+
+  syncUI();
+});
+
+// 失敗
+Events.on("fail", () => {
+  GameState.combo = 0;
+
+  syncUI();
 });
 
 /------------------------
