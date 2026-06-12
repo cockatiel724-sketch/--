@@ -1,0 +1,161 @@
+/========================
+ * v5 Core Engine
+========================/
+
+const GameState = {
+  score: 0,
+  combo: 0,
+  energy: 30,
+  fever: false,
+  running: true,
+  currentArrow: null,
+  spawnTime: performance.now(),
+  lastInputTime: performance.now()
+};
+
+/------------------------
+ * Events
+------------------------/
+const Events = {
+  map: {},
+
+  on(event, fn) {
+    (this.map[event] ||= []).push(fn);
+  },
+
+  emit(event, data) {
+    (this.map[event] || []).forEach(fn => fn(data));
+  }
+};
+
+/------------------------
+ * Systems
+------------------------/
+const Systems = {
+  list: [],
+
+  register(sys) {
+    this.list.push(sys);
+  },
+
+  update(dt) {
+    this.list.forEach(s => s.update?.(dt));
+  }
+};
+
+/------------------------
+ * GameLoop
+------------------------/
+const GameLoop = {
+  last: performance.now(),
+
+  run() {
+    const now = performance.now();
+    const dt = now - this.last;
+    this.last = now;
+
+    Systems.update(dt);
+
+    requestAnimationFrame(GameLoop.run);
+  }
+};
+
+/------------------------
+ * Input (超簡易スワイプ代替)
+------------------------/
+const InputSystem = {
+  update() {}
+};
+
+Systems.register(InputSystem);
+
+/------------------------
+ * ArrowSystem（空）
+------------------------/
+const ArrowSystem = {
+  update() {
+    // spawnロジック入れる場所
+  }
+};
+
+Systems.register(ArrowSystem);
+
+/------------------------
+ * EnergySystem（最低限減るだけ）
+------------------------/
+const EnergySystem = {
+  timer: 0,
+
+  update(dt) {
+    this.timer += dt;
+    if (this.timer > 1000) {
+      this.timer = 0;
+      GameState.energy--;
+      syncUI();
+
+      if (GameState.energy <= 0) {
+        Events.emit("energyEmpty");
+      }
+    }
+  }
+};
+
+Systems.register(EnergySystem);
+
+/------------------------
+ * ComboSystem（仮）
+------------------------/
+const ComboSystem = {
+  update() {}
+};
+
+Systems.register(ComboSystem);
+
+/------------------------
+ * FeverSystem（仮）
+------------------------/
+const FeverSystem = {
+  update() {}
+};
+
+Systems.register(FeverSystem);
+
+/------------------------
+ * ParticleSystem（空）
+------------------------/
+const ParticleSystem = {
+  update() {}
+};
+
+Systems.register(ParticleSystem);
+
+/------------------------
+ * AudioSystem（空）
+------------------------/
+const AudioSystem = {
+  update() {}
+};
+
+Systems.register(AudioSystem);
+
+/------------------------
+ * Events wiring（反応だけ）
+------------------------/
+Events.on("energyEmpty", () => {
+  GameState.running = false;
+  console.log("GAME OVER");
+});
+
+/------------------------
+ * UI sync（副作用はここだけ）
+------------------------/
+function syncUI() {
+  document.getElementById("score").textContent = GameState.score;
+  document.getElementById("combo").textContent = GameState.combo;
+  document.getElementById("energy").textContent = GameState.energy;
+}
+
+/------------------------
+ * Start
+------------------------/
+requestAnimationFrame(GameLoop.run);
