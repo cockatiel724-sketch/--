@@ -61,35 +61,24 @@ const GameLoop = {
 };
 
 /------------------------
- * Input (超簡易スワイプ代替)
+ * INPUT SYSTEM
+ * スワイプを検知する場所
 ------------------------/
-const InputSystem = {
-  update() {}
-};
-
-InputSystem.init();
-Systems.register(InputSystem);
-
 const InputSystem = {
   startX: 0,
   startY: 0,
   isDown: false,
 
   init() {
-    // -------------------------
-    // スワイプ開始
-    // -------------------------
+    // 指を置いた瞬間
     window.addEventListener("touchstart", (e) => {
       const t = e.touches[0];
-
       this.startX = t.clientX;
       this.startY = t.clientY;
       this.isDown = true;
     });
 
-    // -------------------------
-    // スワイプ終了
-    // -------------------------
+    // 指を離した瞬間
     window.addEventListener("touchend", (e) => {
       if (!this.isDown) return;
 
@@ -100,13 +89,10 @@ const InputSystem = {
 
       this.isDown = false;
 
-      // ★ここが重要（ArrowSystemに渡す）
       ArrowSystem.checkSwipe({ dx, dy });
     });
 
-    // -------------------------
     // PCテスト用（マウス）
-    // -------------------------
     window.addEventListener("mousedown", (e) => {
       this.startX = e.clientX;
       this.startY = e.clientY;
@@ -121,37 +107,88 @@ const InputSystem = {
 
       this.isDown = false;
 
-      // ★ここも同じ
       ArrowSystem.checkSwipe({ dx, dy });
     });
   },
 
-  update() {
-    // v5ルール：空でOK
-  }
+  update() {}
 };
+
 /------------------------
- * ArrowSystem（空）
+ * ARROW SYSTEM
+ * ゲームの“正解方向”を管理
 ------------------------/
 const ArrowSystem = {
-  update() {
-    // spawnロジック入れる場所
-  }
+  current: null,
+
+  directions: ["up", "down", "left", "right"],
+
+  spawn() {
+    const dir =
+      this.directions[Math.floor(Math.random() * this.directions.length)];
+
+    this.current = {
+      direction: dir,
+      createdAt: performance.now()
+    };
+
+    GameState.currentArrow = this.current;
+
+    console.log("SPAWN:", dir);
+  },
+
+  checkSwipe({ dx, dy }) {
+    if (!this.current) {
+      this.spawn();
+      return;
+    }
+
+    const dir = this.getDirection(dx, dy);
+
+    if (dir === this.current.direction) {
+      GameState.score += 10;
+      GameState.combo++;
+
+      console.log("SUCCESS:", dir);
+    } else {
+      GameState.combo = 0;
+      GameState.energy -= 5;
+
+      console.log("FAIL:", dir);
+    }
+
+    this.spawn();
+    syncUI();
+  },
+
+  getDirection(dx, dy) {
+    const absX = Math.abs(dx);
+    const absY = Math.abs(dy);
+
+    if (absX > absY) {
+      return dx > 0 ? "right" : "left";
+    } else {
+      return dy > 0 ? "down" : "up";
+    }
+  },
+
+  update() {}
 };
 
-Systems.register(ArrowSystem);
-
 /------------------------
- * EnergySystem（最低限減るだけ）
+ * ENERGY SYSTEM
 ------------------------/
 const EnergySystem = {
   timer: 0,
 
   update(dt) {
     this.timer += dt;
+
     if (this.timer > 1000) {
       this.timer = 0;
+
       GameState.energy--;
+
       syncUI();
 
       if (GameState.energy <= 0) {
@@ -164,43 +201,13 @@ const EnergySystem = {
 Systems.register(EnergySystem);
 
 /------------------------
- * ComboSystem（仮）
+ * SYSTEM REGISTER
 ------------------------/
-const ComboSystem = {
-  update() {}
-};
-
-Systems.register(ComboSystem);
+Systems.register(InputSystem);
+Systems.register(ArrowSystem);
 
 /------------------------
- * FeverSystem（仮）
-------------------------/
-const FeverSystem = {
-  update() {}
-};
-
-Systems.register(FeverSystem);
-
-/------------------------
- * ParticleSystem（空）
-------------------------/
-const ParticleSystem = {
-  update() {}
-};
-
-Systems.register(ParticleSystem);
-
-/------------------------
- * AudioSystem（空）
-------------------------/
-const AudioSystem = {
-  update() {}
-};
-
-Systems.register(AudioSystem);
-
-/------------------------
- * Events wiring（反応だけ）
+ * EVENT
 ------------------------/
 Events.on("energyEmpty", () => {
   GameState.running = false;
@@ -208,7 +215,7 @@ Events.on("energyEmpty", () => {
 });
 
 /------------------------
- * UI sync（副作用はここだけ）
+ * UI UPDATE
 ------------------------/
 function syncUI() {
   document.getElementById("score").textContent = GameState.score;
@@ -217,6 +224,8 @@ function syncUI() {
 }
 
 /------------------------
- * Start
+ * START
 ------------------------/
+InputSystem.init();
+ArrowSystem.spawn();
 requestAnimationFrame(GameLoop.run);
