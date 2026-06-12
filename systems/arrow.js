@@ -1,3 +1,4 @@
+console.log("ARROW LOADED");
 const ArrowSystem = {
   current: null,
 
