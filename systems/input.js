@@ -1,3 +1,4 @@
+console.log("INPUT LOADED");
 const InputSystem = {
   startX: 0,
   startY: 0,
