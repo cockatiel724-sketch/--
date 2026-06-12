@@ -67,6 +67,7 @@ const InputSystem = {
   update() {}
 };
 
+InputSystem.init();
 Systems.register(InputSystem);
 
 /------------------------
