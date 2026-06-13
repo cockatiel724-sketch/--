@@ -134,7 +134,41 @@ body {
    スワイプ軌跡
 ======================== */
 
-/* 後で追加 */
+.trail {
+  position: fixed;
+
+  width: 120px;
+  height: 12px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,180,0,0),
+      rgba(255,180,0,1)
+    );
+
+  pointer-events: none;
+
+  filter:
+    drop-shadow(0 0 8px orange)
+    drop-shadow(0 0 16px orange);
+
+  animation: trailFade 0.35s linear forwards;
+
+  z-index: 999;
+}
+
+@keyframes trailFade {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
 
 
 /* ========================
