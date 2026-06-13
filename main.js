@@ -31,6 +31,18 @@ const Events = {
   }
 };
 
+Events.on("swipe", ({ dx, dy }) => {
+
+  const x =
+    InputSystem.endX;
+
+  const y =
+    InputSystem.endY;
+
+  TrailSystem.add(x, y);
+
+});
+
 /* ------------------------
  * Systems
 ------------------------ */
