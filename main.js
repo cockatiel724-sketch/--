@@ -1,6 +1,7 @@
 console.log("MAIN LOADED");
+
 /* ========================
-  v5 Core Engine
+ * v5 Core Engine
 ======================== */
 
 const GameState = {
@@ -14,9 +15,10 @@ const GameState = {
   lastInputTime: performance.now()
 };
 
-/------------------------
+/* ------------------------
  * Events
-------------------------/
+------------------------ */
+
 const Events = {
   map: {},
 
@@ -29,9 +31,10 @@ const Events = {
   }
 };
 
-/------------------------
+/* ------------------------
  * Systems
-------------------------/
+------------------------ */
+
 const Systems = {
   list: [],
 
@@ -44,9 +47,10 @@ const Systems = {
   }
 };
 
-/------------------------
+/* ------------------------
  * GameLoop
-------------------------/
+------------------------ */
+
 const GameLoop = {
   last: performance.now(),
 
@@ -57,13 +61,14 @@ const GameLoop = {
 
     Systems.update(dt);
 
-    requestAnimationFrame(GameLoop.run);
+    requestAnimationFrame(GameLoop.run.bind(this));
   }
 };
 
-/------------------------
+/* ------------------------
  * ENERGY SYSTEM
-------------------------/
+------------------------ */
+
 const EnergySystem = {
   timer: 0,
 
@@ -86,20 +91,23 @@ const EnergySystem = {
 
 Systems.register(EnergySystem);
 
-/------------------------
+/* ------------------------
  * SYSTEM REGISTER
-------------------------/
+------------------------ */
+
 Systems.register(InputSystem);
 Systems.register(ArrowSystem);
 
-/------------------------
- * EVENT
-------------------------/
+/* ------------------------
+ * EVENTS
+------------------------ */
+
 Events.on("energyEmpty", () => {
   GameState.running = false;
   console.log("GAME OVER");
 });
-// スワイプ → ArrowSystemへ
+
+// スワイプ → ArrowSystem
 Events.on("swipe", (swipe) => {
   ArrowSystem.checkSwipe(swipe);
 });
@@ -119,18 +127,23 @@ Events.on("fail", () => {
   syncUI();
 });
 
-/------------------------
+/* ------------------------
  * UI UPDATE
-------------------------/
+------------------------ */
+
 function syncUI() {
   document.getElementById("score").textContent = GameState.score;
   document.getElementById("combo").textContent = GameState.combo;
   document.getElementById("energy").textContent = GameState.energy;
 }
 
-/------------------------
+/* ------------------------
  * START
-------------------------/
+------------------------ */
+
+syncUI();
+
 InputSystem.init();
 ArrowSystem.spawn();
-requestAnimationFrame(GameLoop.run);
+
+requestAnimationFrame(GameLoop.run.bind(GameLoop));
