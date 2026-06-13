@@ -64,22 +64,35 @@ const Systems = {
 ------------------------ */
 
 const GameLoop = {
+
   last: performance.now(),
 
   run() {
-  const now = performance.now();
-  const dt = now - this.last;
-  this.last = now;
 
-  // ゲームオーバーなら停止
-  if(!GameState.running){
-    return;
+    const now =
+      performance.now();
+
+    const dt =
+      now - this.last;
+
+    this.last = now;
+
+
+    // ゲーム中だけ更新
+    if (GameState.running) {
+
+      Systems.update(dt);
+
+    }
+
+
+    // ループは常に回す
+    requestAnimationFrame(
+      GameLoop.run.bind(GameLoop)
+    );
+
   }
-  Systems.update(dt);
-  requestAnimationFrame(
-  GameLoop.run.bind(GameLoop)
-);
-}
+
 };
 
 /* ------------------------
@@ -207,7 +220,8 @@ document
 
   document.getElementById(
     "gameOver"
-  ).style.display = "none";
+  ).style.display =
+    "none";
 
   ArrowSystem.spawn();
 
