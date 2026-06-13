@@ -39,7 +39,7 @@ if (el) {
   /* 拡大開始 */
   requestAnimationFrame(() => {
     el.style.transform =
-      "translate(-50%, -50%) scale(3)";
+      "translate(-50%, -50%) scale(4)";
   });
 }
 
