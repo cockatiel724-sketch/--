@@ -97,6 +97,7 @@ Systems.register(EnergySystem);
 
 Systems.register(InputSystem);
 Systems.register(ArrowSystem);
+Systems.register(TrailSystem);
 
 /* ------------------------
  * EVENTS
@@ -110,6 +111,10 @@ Events.on("energyEmpty", () => {
 // スワイプ → ArrowSystem
 Events.on("swipe", (swipe) => {
   ArrowSystem.checkSwipe(swipe);
+});
+
+Events.on("swipe", (swipe) => {
+  TrailSystem.create(swipe);
 });
 
 // 成功
