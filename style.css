@@ -206,5 +206,41 @@ body {
 /* ========================
    ゲームオーバー
 ======================== */
+#gameOver {
+  position: fixed;
+  inset: 0;
+  background:
+    rgba(0,0,0,0.8);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
 
-/* 後で追加 */
+#gameOverTitle {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+#finalScoreLabel {
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+#finalScore {
+  font-size: 72px;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+#retryBtn {
+  width: 180px;
+  height: 60px;
+  font-size: 24px;
+  border: none;
+  border-radius: 999px;
+  background: white;
+  color: black;
+}
