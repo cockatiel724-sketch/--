@@ -55,14 +55,17 @@ const GameLoop = {
   last: performance.now(),
 
   run() {
-    const now = performance.now();
-    const dt = now - this.last;
-    this.last = now;
+  const now = performance.now();
+  const dt = now - this.last;
+  this.last = now;
 
-    Systems.update(dt);
-
-    requestAnimationFrame(GameLoop.run.bind(this));
+  // ゲームオーバーなら停止
+  if(!GameState.running){
+    return;
   }
+  Systems.update(dt);
+  requestAnimationFrame(GameLoop.run);
+}
 };
 
 /* ------------------------
@@ -130,9 +133,10 @@ Events.on("success", () => {
 });
 
 // 失敗
-Events.on("fail", () => {
-  GameState.combo = 0;
-
+Events.on("fail", (data) => {
+  GameState.running = false;
+  console.log("GAME OVER");
+  console.log(data);
   syncUI();
 });
 
