@@ -66,10 +66,16 @@ const InputSystem = {
 
     /* v5イベント発火 */
     Events.emit("swipe", {
-      direction,
-      dx,
-      dy
-    });
+  direction,
+  dx,
+  dy,
+
+  startX: this.startX,
+  startY: this.startY,
+
+  endX: this.endX,
+  endY: this.endY
+});
 
     console.log("SWIPE:", direction);
   },
