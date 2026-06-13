@@ -1,54 +1,28 @@
+console.log("TRAIL LOADED");
+
 const TrailSystem = {
 
-  create({
-    dx,
-    dy,
-    startX,
-    startY,
-    endX,
-    endY
-  }) {
+  add(x, y) {
 
-    const trail = document.createElement("div");
+    const dot =
+      document.createElement("div");
 
-    trail.className = "trail";
+    dot.className =
+      "trail-dot";
 
-    // スワイプ距離
-    const length = Math.sqrt(
-      dx * dx +
-      dy * dy
-    );
+    dot.style.left =
+      `${x}px`;
 
-    // 中間地点
-    const centerX =
-      (startX + endX) / 2;
+    dot.style.top =
+      `${y}px`;
 
-    const centerY =
-      (startY + endY) / 2;
-
-    trail.style.width =
-      `${length}px`;
-
-    trail.style.left =
-      `${centerX - length / 2}px`;
-
-    trail.style.top =
-      `${centerY - 6}px`;
-
-    const angle =
-      Math.atan2(dy, dx) *
-      180 /
-      Math.PI;
-
-    trail.style.transform =
-      `rotate(${angle}deg)`;
-
-    document.body.appendChild(trail);
+    document.body.appendChild(dot);
 
     setTimeout(() => {
-      trail.remove();
-    }, 350);
+      dot.remove();
+    }, 250);
   },
 
   update() {}
+
 };
