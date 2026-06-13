@@ -27,7 +27,7 @@ if (el) {
 
   /* 初期サイズへ戻す */
   el.style.transform =
-    "translate(-50%, -50%) scale(0.8)";
+    "translate(-50%, -50%) scale(1.0)";
 
   /* 強制再描画 */
   void el.offsetWidth;
@@ -39,7 +39,7 @@ if (el) {
   /* 拡大開始 */
   requestAnimationFrame(() => {
     el.style.transform =
-      "translate(-50%, -50%) scale(2)";
+      "translate(-50%, -50%) scale(3)";
   });
 }
 
