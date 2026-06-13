@@ -16,7 +16,7 @@ const ArrowSystem = {
 
     GameState.currentArrow = this.current;
 
-    // 矢印表示
+    /* 矢印表示 */
     this.render(dir);
 
     Events.emit("spawn", this.current);
@@ -59,7 +59,7 @@ render(dir) {
       console.log("FAIL:", dir);
     }
 
-    // 次の矢印生成
+    /* 次の矢印生成 */
     this.spawn();
   },
 
@@ -75,7 +75,7 @@ render(dir) {
   },
 
   update() {
-    // 2秒寿命チェック
+    /* 2秒寿命チェック */
     if (!this.current) return;
 
     const now = performance.now();
