@@ -37,7 +37,7 @@ render(dir) {
   el.className = "";
   el.classList.add("arrow");
   el.classList.add(dir);
-}
+},
 
   checkSwipe(swipe) {
     if (!this.current) return;
