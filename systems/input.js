@@ -6,7 +6,7 @@ const InputSystem = {
   endY: 0,
   isDown: false,
 
-  threshold: 30, // スワイプ判定距離
+  threshold: 30, /* スワイプ判定距離 */
 
   init() {
     window.addEventListener("touchstart", (e) => {
@@ -27,7 +27,7 @@ const InputSystem = {
       this.handleSwipe();
     });
 
-    // PCテスト用（マウス）
+    /* PCテスト用（マウス）*/
     window.addEventListener("mousedown", (e) => {
       this.startX = e.clientX;
       this.startY = e.clientY;
@@ -53,7 +53,7 @@ const InputSystem = {
     const absY = Math.abs(dy);
 
     if (absX < this.threshold && absY < this.threshold) {
-      return; // タップ扱い（無視）
+      return; /* タップ扱い（無視） */
     }
 
     let direction = null;
@@ -64,7 +64,7 @@ const InputSystem = {
       direction = dy > 0 ? "down" : "up";
     }
 
-    // v5イベント発火
+    /* v5イベント発火 */
     Events.emit("swipe", {
       direction,
       dx,
@@ -75,6 +75,6 @@ const InputSystem = {
   },
 
   update() {
-    // 今は空（v5ルール：副作用なし）
+    /* 今は空（v5ルール：副作用なし）*/
   }
 };
