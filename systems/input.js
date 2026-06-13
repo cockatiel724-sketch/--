@@ -16,6 +16,19 @@ const InputSystem = {
       this.isDown = true;
     });
 
+window.addEventListener("touchmove", (e) => {
+
+  if (!this.isDown) return;
+
+  const t = e.touches[0];
+
+  Events.emit("trail", {
+    x: t.clientX,
+    y: t.clientY
+  });
+
+});
+
     window.addEventListener("touchend", (e) => {
       if (!this.isDown) return;
 
@@ -34,6 +47,17 @@ const InputSystem = {
       this.isDown = true;
     });
 
+    window.addEventListener("mousemove", (e) => {
+
+  if (!this.isDown) return;
+
+  Events.emit("trail", {
+    x: e.clientX,
+    y: e.clientY
+  });
+
+});
+
     window.addEventListener("mouseup", (e) => {
       if (!this.isDown) return;
 
@@ -44,6 +68,7 @@ const InputSystem = {
       this.handleSwipe();
     });
   },
+
 
   handleSwipe() {
     const dx = this.endX - this.startX;
