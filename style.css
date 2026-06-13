@@ -63,51 +63,63 @@ body {
   transform: translate(-50%, -50%);
 }
 
+/* 横方向 */
 
-/* 共通矢印 */
+#arrow.right,
+#arrow.left {
+  display: flex;
+  gap: 10px;
+}
 
-.arrow {
+/* 縦方向 */
+
+#arrow.up,
+#arrow.down {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 共通三角形 */
+
+.marker {
   width: 0;
   height: 0;
-  filter: drop-shadow(0 0 8px rgba(255,255,255,0.8));
+
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.9));
 }
-
-
-/* 上 */
-
-.arrow.up {
-  border-left: 30px solid transparent;
-  border-right: 30px solid transparent;
-  border-bottom: 50px solid white;
-}
-
-
-/* 下 */
-
-.arrow.down {
-  border-left: 30px solid transparent;
-  border-right: 30px solid transparent;
-  border-top: 50px solid white;
-}
-
-
-/* 左 */
-
-.arrow.left {
-  border-top: 30px solid transparent;
-  border-bottom: 30px solid transparent;
-  border-right: 50px solid white;
-}
-
 
 /* 右 */
 
-.arrow.right {
-  border-top: 30px solid transparent;
-  border-bottom: 30px solid transparent;
-  border-left: 50px solid white;
+#arrow.right .marker {
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 25px solid white;
 }
 
+/* 左 */
+
+#arrow.left .marker {
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-right: 25px solid white;
+}
+
+/* 上 */
+
+#arrow.up .marker {
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 25px solid white;
+}
+
+/* 下 */
+
+#arrow.down .marker {
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 25px solid white;
+}
 
 /* ========================
    コア（中央エネルギー球）
