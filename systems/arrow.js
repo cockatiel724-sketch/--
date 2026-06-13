@@ -62,29 +62,44 @@ render(dir) {
   `;
 },
 
-  checkSwipe(swipe) {
-    if (!this.current) return;
+checkSwipe(swipe) {
 
-    const dir = this.getDirectionFromSwipe(swipe);
+  // ゲームオーバーなら何もしない
+  if (!GameState.running) return;
 
-    if (dir === this.current.direction) {
-      Events.emit("success", {
-        direction: dir
-      });
+  if (!this.current) return;
 
-      console.log("SUCCESS:", dir);
+  const dir =
+    this.getDirectionFromSwipe(swipe);
 
-    } else {
-      Events.emit("fail", {
-        direction: dir
-      });
 
-      console.log("FAIL:", dir);
-    }
+  // 正解
+  if (dir === this.current.direction) {
 
-    /* 次の矢印生成 */
+    Events.emit("success", {
+      direction: dir
+    });
+
+    console.log("SUCCESS:", dir);
+
+    // 次の矢印
     this.spawn();
-  },
+
+  }
+
+  // 不正解
+  else {
+
+    Events.emit("fail", {
+      direction: dir
+    });
+
+    console.log("FAIL:", dir);
+
+    // spawnしない！！
+  }
+
+},
 
   getDirectionFromSwipe({ dx, dy }) {
     const absX = Math.abs(dx);
@@ -104,13 +119,15 @@ render(dir) {
     const now = performance.now();
 
     if (now - this.current.createdAt > 2000) {
-      Events.emit("fail", {
-        reason: "timeout"
-      });
 
-      console.log("TIMEOUT");
+  Events.emit("fail", {
+    reason: "timeout"
+  });
 
-      this.spawn();
-    }
+  console.log("TIMEOUT");
+
+  // spawnしない
+
+}
   }
 };
