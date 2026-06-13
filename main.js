@@ -148,10 +148,21 @@ Events.on("success", () => {
 
 // 失敗
 Events.on("fail", (data) => {
+
   GameState.running = false;
-  console.log("GAME OVER");
-  console.log(data);
+
+  document.getElementById(
+    "finalScore"
+  ).textContent =
+    GameState.score;
+
+  document.getElementById(
+    "gameOver"
+  ).style.display =
+    "flex";
+
   syncUI();
+
 });
 
 /* ------------------------
@@ -174,3 +185,33 @@ InputSystem.init();
 ArrowSystem.spawn();
 
 requestAnimationFrame(GameLoop.run.bind(GameLoop));
+
+document
+.getElementById("retryBtn")
+
+.addEventListener(
+
+"click",
+
+() => {
+
+  GameState.score = 0;
+
+  GameState.combo = 0;
+
+  GameState.energy = 30;
+
+  GameState.running = true;
+
+  syncUI();
+
+  document.getElementById(
+    "gameOver"
+  ).style.display = "none";
+
+  ArrowSystem.spawn();
+
+}
+
+);
+
