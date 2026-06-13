@@ -21,9 +21,22 @@ const ArrowSystem = {
     const el = document.getElementById("arrow");
 
 if (el) {
+
+  /* 一旦アニメ停止 */
+  el.style.transition = "none";
+
+  /* 初期サイズへ戻す */
   el.style.transform =
     "translate(-50%, -50%) scale(0.8)";
 
+  /* 強制再描画 */
+  void el.offsetWidth;
+
+  /* アニメ再開 */
+  el.style.transition =
+    "transform 2s linear";
+
+  /* 拡大開始 */
   requestAnimationFrame(() => {
     el.style.transform =
       "translate(-50%, -50%) scale(2)";
