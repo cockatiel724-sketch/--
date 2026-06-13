@@ -18,6 +18,17 @@ const ArrowSystem = {
 
     /* 矢印表示 */
     this.render(dir);
+    const el = document.getElementById("arrow");
+
+if (el) {
+  el.style.transform =
+    "translate(-50%, -50%) scale(0.8)";
+
+  requestAnimationFrame(() => {
+    el.style.transform =
+      "translate(-50%, -50%) scale(2)";
+  });
+}
 
     Events.emit("spawn", this.current);
 
