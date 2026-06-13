@@ -76,7 +76,9 @@ const GameLoop = {
     return;
   }
   Systems.update(dt);
-  requestAnimationFrame(GameLoop.run);
+  requestAnimationFrame(
+  GameLoop.run.bind(GameLoop)
+);
 }
 };
 
