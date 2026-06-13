@@ -133,31 +133,33 @@ body {
 /* ========================
    スワイプ軌跡
 ======================== */
-
 .trail {
   position: fixed;
 
-  width: 120px;
   height: 12px;
 
   border-radius: 999px;
+
+  pointer-events: none;
+
+  z-index: 999;
 
   background:
     linear-gradient(
       90deg,
       rgba(255,180,0,0),
-      rgba(255,180,0,1)
+      rgba(255,220,100,1)
     );
-
-  pointer-events: none;
 
   filter:
     drop-shadow(0 0 8px orange)
-    drop-shadow(0 0 16px orange);
+    drop-shadow(0 0 16px orange)
+    drop-shadow(0 0 32px orange);
 
-  animation: trailFade 0.35s linear forwards;
+  transform-origin: center;
 
-  z-index: 999;
+  animation:
+    trailFade 0.35s ease-out forwards;
 }
 
 @keyframes trailFade {
