@@ -116,9 +116,9 @@ Events.on("swipe", (swipe) => {
   ArrowSystem.checkSwipe(swipe);
 });
 
-Events.on("swipe", (swipe) => {
+/* Events.on("swipe", (swipe) => {
   TrailSystem.create(swipe);
-});
+}); */
 
 Events.on("trail", ({ x, y }) => {
   TrailSystem.add(x, y);
