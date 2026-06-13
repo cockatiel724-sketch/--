@@ -25,18 +25,17 @@ const ArrowSystem = {
   },
 
 render(dir) {
-  console.log("RENDER:", dir);
-
   const el = document.getElementById("arrow");
 
-  if (!el) {
-    console.log("ARROW ELEMENT NOT FOUND");
-    return;
-  }
+  if (!el) return;
 
-  el.className = "";
-  el.classList.add("arrow");
-  el.classList.add(dir);
+  el.className = dir;
+
+  el.innerHTML = `
+    <div class="marker"></div>
+    <div class="marker"></div>
+    <div class="marker"></div>
+  `;
 },
 
   checkSwipe(swipe) {
