@@ -117,6 +117,10 @@ Events.on("swipe", (swipe) => {
   TrailSystem.create(swipe);
 });
 
+Events.on("trail", ({ x, y }) => {
+  TrailSystem.add(x, y);
+});
+
 // 成功
 Events.on("success", () => {
   GameState.score += 10;
