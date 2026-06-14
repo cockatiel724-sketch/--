@@ -134,8 +134,7 @@ Systems.register(TrailSystem);
 ------------------------ */
 
 Events.on("energyEmpty", () => {
-  GameState.running = false;
-  console.log("GAME OVER");
+  gameOver();
 });
 
 // スワイプ → ArrowSystem
@@ -161,6 +160,15 @@ Events.on("success", () => {
 
 // 失敗
 Events.on("fail", (data) => {
+  console.log(data);
+  gameOver();
+
+});
+
+/* ------------------------
+ * ゲームオーバー
+------------------------ */
+function gameOver() {
 
   GameState.running = false;
 
@@ -174,9 +182,7 @@ Events.on("fail", (data) => {
   ).style.display =
     "flex";
 
-  syncUI();
-
-});
+}
 
 /* ------------------------
  * UI UPDATE
