@@ -206,6 +206,18 @@ ArrowSystem.spawn();
 requestAnimationFrame(GameLoop.run.bind(GameLoop));
 
 document
+.getElementById("startBtn")
+.addEventListener(
+"click",
+() => {
+  document
+  .getElementById("startScreen")
+  .style.display = "none";
+}
+);
+
+
+document
 .getElementById("retryBtn")
 
 .addEventListener(
