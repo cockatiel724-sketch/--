@@ -222,8 +222,27 @@ document
   requestAnimationFrame(
     GameLoop.run.bind(GameLoop)
   );
-
 }
+);
 
+document
+.getElementById("retryBtn")
+.addEventListener(
+"click",
+() => {
+  GameState.score = 0;
+  GameState.combo = 0;
+  GameState.energy = 30;
+  GameState.running = true;
+
+  syncUI();
+
+  document.getElementById(
+    "gameOver"
+  ).style.display =
+    "none";
+
+  ArrowSystem.spawn();
+}
 );
 
