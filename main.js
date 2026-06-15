@@ -200,6 +200,8 @@ function syncUI() {
 
 syncUI();
 
+InputSystem.init();
+
 document
 .getElementById("startBtn")
 
@@ -214,8 +216,6 @@ document
   .style.display = "none";
   
   GameState.running = true;
-
-  InputSystem.init();
 
   ArrowSystem.spawn();
 
