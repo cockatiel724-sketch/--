@@ -200,48 +200,27 @@ function syncUI() {
 
 syncUI();
 
-InputSystem.init();
-ArrowSystem.spawn();
-
-requestAnimationFrame(GameLoop.run.bind(GameLoop));
-
 document
 .getElementById("startBtn")
+
 .addEventListener(
+
 "click",
+
 () => {
+
   document
   .getElementById("startScreen")
   .style.display = "none";
-}
-);
 
 
-document
-.getElementById("retryBtn")
-
-.addEventListener(
-
-"click",
-
-() => {
-
-  GameState.score = 0;
-
-  GameState.combo = 0;
-
-  GameState.energy = 30;
-
-  GameState.running = true;
-
-  syncUI();
-
-  document.getElementById(
-    "gameOver"
-  ).style.display =
-    "none";
+  InputSystem.init();
 
   ArrowSystem.spawn();
+
+  requestAnimationFrame(
+    GameLoop.run.bind(GameLoop)
+  );
 
 }
 
