@@ -9,7 +9,7 @@ const GameState = {
   combo: 0,
   energy: 30,
   fever: false,
-  running: true,
+  running: false,
   currentArrow: null,
   spawnTime: performance.now(),
   lastInputTime: performance.now()
@@ -212,7 +212,8 @@ document
   document
   .getElementById("startScreen")
   .style.display = "none";
-
+  
+  GameState.running = true;
 
   InputSystem.init();
 
